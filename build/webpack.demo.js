@@ -1,17 +1,19 @@
 const path = require('path');
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 提取：将CSS提取到单独的文件中。它为每个包含CSS的JS文件创建一个CSS文件。支持CSS和SourceMaps的按需加载。
+const CopyWebpackPlugin = require('copy-webpack-plugin'); // 打包时拷贝文件,from-源目录，to-目标目录，缺省为output目录。
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // 为html文件中引入的外部资源如script、link动态添加每次compile后的hash，防止引用缓存的外部文件问题;可以生成创建html入口文件，比如单页面可以生成一个html文件入口，配置N个html-webpack-plugin可以生成N个页面入口
+const ProgressBarPlugin = require('progress-bar-webpack-plugin'); // 编译进度条
+const VueLoaderPlugin = require('vue-loader/lib/plugin'); // vue-loader
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); // 压缩：css
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); // 压缩优化js文件
 
 const config = require('./config');
 
 const isProd = process.env.NODE_ENV === 'production';
 const isPlay = !!process.env.PLAY_ENV;
+
+// console.log('=======\n',process.env.NODE_ENV,'========\n')
 
 const webpackConfig = {
   mode: process.env.NODE_ENV,
@@ -19,15 +21,15 @@ const webpackConfig = {
     docs: './examples/entry.js'
   } : (isPlay ? './examples/play.js' : './examples/entry.js'),
   output: {
-    path: path.resolve(process.cwd(), './examples/element-ui/'),
-    publicPath: process.env.CI_ENV || '',
+    path: path.resolve(process.cwd(), './examples/element-ui/'), // 所有输出文件的目标路径
+    publicPath: process.env.CI_ENV || '', // 
     filename: '[name].[hash:7].js',
     chunkFilename: isProd ? '[name].[hash:7].js' : '[name].js'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: config.alias,
-    modules: ['node_modules']
+    modules: ['node_modules'],
   },
   devServer: {
     host: '0.0.0.0',

@@ -28,7 +28,7 @@ transitionList.forEach(function(file) {
 
 externals = [Object.assign({
   vue: 'vue'
-}, externals), nodeExternals()];
+}, externals), nodeExternals()]; // ?
 
 exports.externals = externals;
 
